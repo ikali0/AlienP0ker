@@ -127,7 +127,7 @@ const Index = () => {
       <main className="flex-1 container max-w-6xl mx-auto p-4 flex flex-col gap-6">
         <div className="flex flex-col lg:flex-row gap-6 flex-1">
           {/* Tubes */}
-          <aside className="hidden lg:block lg:w-56 space-y-4">
+          <aside className="">
             <TubeGauge tubes={game.tubes} highlightedTube={game.highlightedTube} isDraining={game.result === 'win'} />
           </aside>
 
