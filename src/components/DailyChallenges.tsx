@@ -19,7 +19,7 @@ export function DailyChallenges({
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-casino-gold" />
-          <h3 className="font-bold text-foreground">Daily Challenges</h3>
+          <h3 className="font-bold text-foreground text-xs">Daily Challenges</h3>
         </div>
         <div className="text-xs text-primary">
           {completedCount}/{challenges.length} Complete
