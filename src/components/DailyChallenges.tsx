@@ -14,7 +14,7 @@ export function DailyChallenges({
 }: DailyChallengesProps) {
   const completedCount = challenges.filter(c => c.completed).length;
   const claimedCount = challenges.filter(c => c.claimed).length;
-  return <div className="bg-card/50 rounded-xl border border-border p-4">
+  return <div className="bg-card/50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-border mx-2 sm:mx-0">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
