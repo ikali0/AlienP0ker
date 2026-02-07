@@ -13,14 +13,14 @@ import { DailyChallenges } from '@/components/DailyChallenges';
 import { AchievementsPanel } from '@/components/AchievementsPanel';
 import { AchievementNotification } from '@/components/AchievementNotification';
 import { cn } from '@/lib/utils';
-
 const Index = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const game = useGameState();
   const challenges = useDailyChallenges();
   const achievements = useAchievements();
-  const { playSound } = useSoundEffects(soundEnabled);
-
+  const {
+    playSound
+  } = useSoundEffects(soundEnabled);
   const isPlayerTurn = game.phase === 'holding';
   const showHands = game.playerHand.length > 0;
   const showResults = game.phase === 'showdown' || game.phase === 'result';
@@ -34,13 +34,11 @@ const Index = () => {
       });
     }
   }, [game.phase, game.playerHand.length]);
-
   useEffect(() => {
     if (game.phase === 'showdown') {
       playSound('flip');
     }
   }, [game.phase]);
-
   useEffect(() => {
     if (game.phase === 'result' && game.result) {
       if (game.result === 'win') {
@@ -64,7 +62,6 @@ const Index = () => {
       achievements.recordResult(isWin, isBust, handRank, game.credits);
     }
   }, [game.phase, game.result, game.playerHandResult?.rank, game.credits]);
-
   const handleClaimReward = (challengeId: string) => {
     const reward = challenges.claimReward(challengeId);
     if (reward > 0) {
@@ -72,17 +69,11 @@ const Index = () => {
       playSound('coins');
     }
   };
-
   const handleToggleHold = (index: number) => {
     game.toggleHold(index);
     playSound('hold');
   };
-
-  return (
-    <div className={cn(
-      'min-h-screen flex flex-col',
-      game.result === 'bust' && 'animate-bust-flash'
-    )}>
+  return <div className={cn('min-h-screen flex flex-col', game.result === 'bust' && 'animate-bust-flash')}>
       {/* Achievement Notification */}
       <AchievementNotification achievement={achievements.newlyUnlocked} />
 
@@ -93,11 +84,7 @@ const Index = () => {
             Stack Draw
           </h1>
           <div className="flex items-center gap-2 sm:gap-3">
-            <AchievementsPanel 
-              achievements={achievements.achievements}
-              unlockedCount={achievements.unlockedCount}
-              totalCount={achievements.totalCount}
-            />
+            <AchievementsPanel achievements={achievements.achievements} unlockedCount={achievements.unlockedCount} totalCount={achievements.totalCount} />
             <HandRankingsPopup />
           </div>
         </div>
@@ -110,38 +97,23 @@ const Index = () => {
           
           {/* Left Sidebar - Tubes (hidden on mobile, shown at bottom) */}
           <aside className="hidden lg:block lg:w-56 shrink-0 space-y-4">
-            <TubeGauge 
-              tubes={game.tubes} 
-              highlightedTube={game.highlightedTube}
-              isDraining={game.result === 'win'}
-            />
+            <TubeGauge tubes={game.tubes} highlightedTube={game.highlightedTube} isDraining={game.result === 'win'} />
           </aside>
 
           {/* Center - Game Table */}
           <div className="flex-1 flex flex-col items-center justify-center">
             {/* Felt Table - More compact on mobile */}
-            <div className="felt-texture rounded-2xl sm:rounded-3xl p-3 sm:p-6 md:p-10 w-full max-w-3xl border border-green-900/50 shadow-2xl">
-              {!showHands ? (
-                <div className="text-center py-10 sm:py-16 md:py-24">
+            <div className="felt-texture rounded-2xl sm:rounded-3xl p-3 sm:p-6 md:p-10 w-full max-w-3xl border border-green-900/50 shadow-2xl bg-purple-400">
+              {!showHands ? <div className="text-center py-10 sm:py-16 md:py-24">
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground/80 mb-2">
                     Ready to Play?
                   </h2>
                   <p className="text-sm sm:text-base text-muted-foreground">
                     Tap Deal to start a new hand
                   </p>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-4 sm:gap-8">
+                </div> : <div className="flex flex-col gap-4 sm:gap-8">
                   {/* Dealer Hand */}
-                  <Hand
-                    cards={game.dealerHand}
-                    heldCards={game.dealerHeldCards}
-                    isRevealed={showResults}
-                    disabled
-                    label="Dealer"
-                    handName={showResults ? game.dealerHandResult?.name : undefined}
-                    isWinner={game.result === 'lose'}
-                  />
+                  <Hand cards={game.dealerHand} heldCards={game.dealerHeldCards} isRevealed={showResults} disabled label="Dealer" handName={showResults ? game.dealerHandResult?.name : undefined} isWinner={game.result === 'lose'} />
 
                   {/* Divider */}
                   <div className="flex items-center gap-2 sm:gap-4">
@@ -153,63 +125,26 @@ const Index = () => {
                   </div>
 
                   {/* Player Hand */}
-                  <Hand
-                    cards={game.playerHand}
-                    heldCards={game.playerHeldCards}
-                    isRevealed
-                    onCardClick={isPlayerTurn ? handleToggleHold : undefined}
-                    disabled={!isPlayerTurn}
-                    label="Your Hand"
-                    handName={showResults ? game.playerHandResult?.name : undefined}
-                    isWinner={game.result === 'win'}
-                  />
-                </div>
-              )}
+                  <Hand cards={game.playerHand} heldCards={game.playerHeldCards} isRevealed onCardClick={isPlayerTurn ? handleToggleHold : undefined} disabled={!isPlayerTurn} label="Your Hand" handName={showResults ? game.playerHandResult?.name : undefined} isWinner={game.result === 'win'} />
+                </div>}
             </div>
 
             {/* Controls */}
             <div className="mt-4 sm:mt-8">
-              <GameControls
-                gamePhase={game.phase}
-                onDeal={game.deal}
-                onDraw={game.draw}
-                onNewHand={game.newHand}
-                onReset={game.resetGame}
-                soundEnabled={soundEnabled}
-                onToggleSound={() => setSoundEnabled(!soundEnabled)}
-                credits={game.credits}
-                ante={game.ante}
-                canAffordAnte={game.canAffordAnte}
-              />
+              <GameControls gamePhase={game.phase} onDeal={game.deal} onDraw={game.draw} onNewHand={game.newHand} onReset={game.resetGame} soundEnabled={soundEnabled} onToggleSound={() => setSoundEnabled(!soundEnabled)} credits={game.credits} ante={game.ante} canAffordAnte={game.canAffordAnte} />
             </div>
           </div>
 
           {/* Right Sidebar - Stats & Challenges (hidden on mobile) */}
           <aside className="hidden lg:block lg:w-56 shrink-0 space-y-4">
-            <StatsPanel
-              handsPlayed={game.stats.handsPlayed}
-              wins={game.stats.wins}
-              losses={game.stats.losses}
-              busts={game.stats.busts}
-              totalWagered={game.stats.totalWagered}
-              totalWon={game.stats.totalWon}
-            />
-            <DailyChallenges
-              challenges={challenges.challenges}
-              currentStreak={challenges.currentStreak}
-              onClaimReward={handleClaimReward}
-            />
+            <StatsPanel handsPlayed={game.stats.handsPlayed} wins={game.stats.wins} losses={game.stats.losses} busts={game.stats.busts} totalWagered={game.stats.totalWagered} totalWon={game.stats.totalWon} />
+            <DailyChallenges challenges={challenges.challenges} currentStreak={challenges.currentStreak} onClaimReward={handleClaimReward} />
           </aside>
         </div>
 
         {/* Mobile Tubes - Horizontal scroll */}
         <div className="lg:hidden">
-          <TubeGauge 
-            tubes={game.tubes} 
-            highlightedTube={game.highlightedTube}
-            isDraining={game.result === 'win'}
-            horizontal
-          />
+          <TubeGauge tubes={game.tubes} highlightedTube={game.highlightedTube} isDraining={game.result === 'win'} horizontal />
         </div>
 
         {/* Mobile Stats Row */}
@@ -234,13 +169,7 @@ const Index = () => {
       </main>
 
       {/* Result Overlay */}
-      <ResultOverlay
-        result={game.result}
-        payout={game.payout}
-        message={game.resultMessage}
-      />
-    </div>
-  );
+      <ResultOverlay result={game.result} payout={game.payout} message={game.resultMessage} />
+    </div>;
 };
-
 export default Index;
