@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX, RotateCcw } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { AnimatedCredits } from './AnimatedCredits';
 
 interface GameControlsProps {
   gamePhase: 'betting' | 'holding' | 'showdown' | 'result';
@@ -29,12 +30,10 @@ export function GameControls({
 }: GameControlsProps) {
   return (
     <div className="flex flex-col items-center gap-3 sm:gap-4">
-      {/* Credit Display */}
+      {/* Credit Display with Animation */}
       <div className="text-center">
-        <div className="text-2xl sm:text-3xl font-bold text-casino-gold casino-glow">
-          {credits.toLocaleString()}
-        </div>
-        <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider">
+        <AnimatedCredits value={credits} className="justify-center" />
+        <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mt-1">
           Credits
         </div>
       </div>

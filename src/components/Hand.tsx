@@ -11,6 +11,7 @@ interface HandProps {
   label: string;
   handName?: string;
   isWinner?: boolean;
+  showTrail?: boolean;
 }
 
 export function Hand({ 
@@ -21,7 +22,8 @@ export function Hand({
   disabled,
   label,
   handName,
-  isWinner
+  isWinner,
+  showTrail = false
 }: HandProps) {
   return (
     <div className={cn(
@@ -43,6 +45,7 @@ export function Hand({
             onClick={() => onCardClick?.(index)}
             disabled={disabled}
             dealDelay={index * 100}
+            showTrail={showTrail}
           />
         ))}
       </div>

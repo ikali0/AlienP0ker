@@ -9,6 +9,7 @@ interface PlayingCardProps {
   onClick?: () => void;
   disabled?: boolean;
   dealDelay?: number;
+  showTrail?: boolean;
 }
 
 export function PlayingCard({ 
@@ -17,10 +18,23 @@ export function PlayingCard({
   isRevealed, 
   onClick, 
   disabled,
-  dealDelay = 0 
+  dealDelay = 0,
+  showTrail = false
 }: PlayingCardProps) {
   const [isFlipped, setIsFlipped] = useState(!isRevealed);
   const [isDealt, setIsDealt] = useState(false);
+  const [showDealTrail, setShowDealTrail] = useState(false);
+
+  useEffect(() => {
+    // Show trail effect during deal
+    if (showTrail) {
+      setShowDealTrail(true);
+      const trailTimer = setTimeout(() => {
+        setShowDealTrail(false);
+      }, dealDelay + 400);
+      return () => clearTimeout(trailTimer);
+    }
+  }, [showTrail, dealDelay]);
 
   useEffect(() => {
     const dealTimer = setTimeout(() => {
@@ -45,13 +59,36 @@ export function PlayingCard({
   return (
     <div 
       className={cn(
-        'relative cursor-pointer transition-all duration-200',
-        isDealt ? 'opacity-100' : 'opacity-0 translate-y-4',
+        'relative cursor-pointer transition-all duration-300',
+        isDealt ? 'opacity-100' : 'opacity-0 translate-y-8 -translate-x-20 rotate-[-15deg]',
         !disabled && 'hover:scale-105 active:scale-95'
       )}
       onClick={!disabled ? onClick : undefined}
       style={{ transitionDelay: `${dealDelay}ms` }}
     >
+      {/* Card trail effect */}
+      {showDealTrail && (
+        <>
+          <div 
+            className="absolute inset-0 opacity-30 blur-sm animate-trail-1"
+            style={{ animationDelay: `${dealDelay}ms` }}
+          >
+            <div className="w-full h-full rounded-lg bg-gradient-to-br from-primary/50 to-primary/20" />
+          </div>
+          <div 
+            className="absolute inset-0 opacity-20 blur-md animate-trail-2"
+            style={{ animationDelay: `${dealDelay + 50}ms` }}
+          >
+            <div className="w-full h-full rounded-lg bg-gradient-to-br from-primary/40 to-primary/10" />
+          </div>
+          <div 
+            className="absolute inset-0 opacity-10 blur-lg animate-trail-3"
+            style={{ animationDelay: `${dealDelay + 100}ms` }}
+          >
+            <div className="w-full h-full rounded-lg bg-primary/30" />
+          </div>
+        </>
+      )}
       {/* Hold indicator - mobile friendly */}
       {isHeld && (
         <div className="absolute -top-5 sm:-top-6 left-1/2 -translate-x-1/2 z-10">

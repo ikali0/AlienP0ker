@@ -12,9 +12,14 @@ import { HandRankingsPopup } from '@/components/HandRankingsPopup';
 import { DailyChallenges } from '@/components/DailyChallenges';
 import { AchievementsPanel } from '@/components/AchievementsPanel';
 import { AchievementNotification } from '@/components/AchievementNotification';
+import { Particles } from '@/components/Particles';
 import { cn } from '@/lib/utils';
+
 const Index = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [showWinParticles, setShowWinParticles] = useState(false);
+  const [showBustParticles, setShowBustParticles] = useState(false);
+  const [showCardTrails, setShowCardTrails] = useState(false);
   const game = useGameState();
   const challenges = useDailyChallenges();
   const achievements = useAchievements();
@@ -25,15 +30,20 @@ const Index = () => {
   const showHands = game.playerHand.length > 0;
   const showResults = game.phase === 'showdown' || game.phase === 'result';
 
-  // Sound effects on phase changes
+  // Sound effects and card trail on phase changes
   useEffect(() => {
     if (game.phase === 'holding' && game.playerHand.length > 0) {
+      // Show card trails during deal
+      setShowCardTrails(true);
+      setTimeout(() => setShowCardTrails(false), 800);
+      
       // Staggered deal sounds
       game.playerHand.forEach((_, i) => {
         setTimeout(() => playSound('deal'), i * 100);
       });
     }
   }, [game.phase, game.playerHand.length]);
+  
   useEffect(() => {
     if (game.phase === 'showdown') {
       playSound('flip');
@@ -43,9 +53,15 @@ const Index = () => {
     if (game.phase === 'result' && game.result) {
       if (game.result === 'win') {
         playSound('win');
-        setTimeout(() => playSound('coins'), 300);
+        setShowWinParticles(true);
+        setTimeout(() => {
+          playSound('coins');
+          setShowWinParticles(false);
+        }, 300);
       } else if (game.result === 'bust') {
         playSound('bust');
+        setShowBustParticles(true);
+        setTimeout(() => setShowBustParticles(false), 500);
       } else if (game.result === 'lose') {
         playSound('lose');
       }
@@ -74,6 +90,10 @@ const Index = () => {
     playSound('hold');
   };
   return <div className={cn('min-h-screen flex flex-col', game.result === 'bust' && 'animate-bust-flash')}>
+      {/* Particle Effects */}
+      <Particles trigger={showWinParticles} type="win" />
+      <Particles trigger={showBustParticles} type="bust" />
+
       {/* Achievement Notification */}
       <AchievementNotification achievement={achievements.newlyUnlocked} />
 
@@ -103,7 +123,7 @@ const Index = () => {
           {/* Center - Game Table */}
           <div className="flex-1 flex flex-col items-center justify-center">
             {/* Felt Table - More compact on mobile */}
-            <div className="felt-texture rounded-2xl sm:rounded-3xl p-3 sm:p-6 md:p-10 w-full max-w-3xl border border-green-900/50 shadow-2xl bg-purple-400">
+            <div className="felt-texture rounded-2xl sm:rounded-3xl p-3 sm:p-6 md:p-10 w-full max-w-3xl border border-secondary shadow-2xl">
               {!showHands ? <div className="text-center py-10 sm:py-16 md:py-24">
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground/80 mb-2">
                     Ready to Play?
@@ -113,7 +133,16 @@ const Index = () => {
                   </p>
                 </div> : <div className="flex flex-col gap-4 sm:gap-8">
                   {/* Dealer Hand */}
-                  <Hand cards={game.dealerHand} heldCards={game.dealerHeldCards} isRevealed={showResults} disabled label="Dealer" handName={showResults ? game.dealerHandResult?.name : undefined} isWinner={game.result === 'lose'} />
+                  <Hand 
+                    cards={game.dealerHand} 
+                    heldCards={game.dealerHeldCards} 
+                    isRevealed={showResults} 
+                    disabled 
+                    label="Dealer" 
+                    handName={showResults ? game.dealerHandResult?.name : undefined} 
+                    isWinner={game.result === 'lose'}
+                    showTrail={showCardTrails}
+                  />
 
                   {/* Divider */}
                   <div className="flex items-center gap-2 sm:gap-4">
@@ -125,7 +154,17 @@ const Index = () => {
                   </div>
 
                   {/* Player Hand */}
-                  <Hand cards={game.playerHand} heldCards={game.playerHeldCards} isRevealed onCardClick={isPlayerTurn ? handleToggleHold : undefined} disabled={!isPlayerTurn} label="Your Hand" handName={showResults ? game.playerHandResult?.name : undefined} isWinner={game.result === 'win'} />
+                  <Hand 
+                    cards={game.playerHand} 
+                    heldCards={game.playerHeldCards} 
+                    isRevealed 
+                    onCardClick={isPlayerTurn ? handleToggleHold : undefined} 
+                    disabled={!isPlayerTurn} 
+                    label="Your Hand" 
+                    handName={showResults ? game.playerHandResult?.name : undefined} 
+                    isWinner={game.result === 'win'}
+                    showTrail={showCardTrails}
+                  />
                 </div>}
             </div>
 

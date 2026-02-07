@@ -233,3 +233,85 @@
 .animate-credits-pop {
   animation: credits-pop 0.3s ease-out;
 }
+
+/* Floating number animation */
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float-up {
+  animation: float-up 1.5s ease-out forwards;
+}
+
+/* Sparkle animation */
+@keyframes sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) rotate(360deg);
+  }
+}
+
+.animate-sparkle {
+  animation: sparkle 0.6s ease-out forwards;
+}
+
+/* Card trail animations */
+@keyframes trail-fade-1 {
+  0% {
+    opacity: 0.4;
+    transform: translateX(-30px) translateY(15px) rotate(-10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes trail-fade-2 {
+  0% {
+    opacity: 0.3;
+    transform: translateX(-45px) translateY(22px) rotate(-12deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes trail-fade-3 {
+  0% {
+    opacity: 0.2;
+    transform: translateX(-60px) translateY(30px) rotate(-15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+}
+
+.animate-trail-1 {
+  animation: trail-fade-1 0.4s ease-out forwards;
+}
+
+.animate-trail-2 {
+  animation: trail-fade-2 0.45s ease-out forwards;
+}
+
+.animate-trail-3 {
+  animation: trail-fade-3 0.5s ease-out forwards;
+}
