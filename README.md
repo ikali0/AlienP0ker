@@ -1,73 +1,259 @@
-# Welcome to your Lovable project
+SYSTEM TYPE:
+Financial-grade simulation engine with deterministic strategy logic and dynamic payout pools.
+prototype in beta: https://p0ker.lovable.app
+--------------------------------------------------
+SECTION 1 — CORE GAME LOOP
+--------------------------------------------------
 
-## Project info
+FOR round in 1 → Rounds_Per_Run:
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+    1. Initialize round state
+        - Reset deck
+        - Reset per-round balances
+        - Create round log object
 
-## How can I edit this code?
+    2. Collect antes
+        - Each player and dealer pay Ante
+        - Add to Play_Pot
+        - Update house input tracking
 
-There are several ways of editing your application.
+    3. Shuffle deck (standard 52-card deck)
 
-**Use Lovable**
+    4. Deal 5 cards to each participant
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+    5. For each participant (including dealer if Dealer_Draw_Allowed = TRUE):
 
-Changes made via Lovable will be committed automatically to this repo.
+           a. Determine HT_ID using deterministic HT decision engine
+           b. Apply HoldMask
+           c. Discard non-held cards
+           d. Draw replacements from deck
+           e. Evaluate final 5-card hand
+           f. Record HT usage
 
-**Use your preferred IDE**
+    6. Resolve outcomes vs dealer
+           - Compare hand ranks
+           - Apply tie rule (DealerWinsOnTie flag)
+           - Determine Play_Pot winner
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+    7. Process Tube payouts
+           - If final hand qualifies ST, FL, FH, SF, RF:
+                payout = Tube_Payout_Function(tube)
+                tube.current_balance -= payout
+                player.balance += payout
+           - If tube empty:
+                Apply refill rules
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+    8. Apply Bust penalties
+           - If HT flagged as Bust:
+                penalty = Ante * Bust_Penalty_Multiplier
+                player.balance -= penalty
+                house.balance += penalty
 
-Follow these steps:
+    9. Update House + Tube balances
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+   10. Log statistics:
+           - Round net
+           - House delta
+           - Player deltas
+           - Tube balances
+           - HT_ID used
+           - Bust events
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+--------------------------------------------------
+SECTION 2 — GAME RULES
+--------------------------------------------------
 
-# Step 3: Install the necessary dependencies.
-npm i
+Game Goal:
+Players compete against dealer to beat dealer’s final 5-card hand.
+House is the bank.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Core Rules:
+- 1 dealer + N players (default 4)
+- Fixed Ante (default 5 chips)
+- 52-card deck reshuffled each round
+- Deterministic Hold Types (no manual player decisions)
 
-**Edit a file directly in GitHub**
+Dealer configuration:
+- Dealer_Draw_Allowed
+- Dealer_Bust_Allowed
+- DealerWinsOnTie
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+--------------------------------------------------
+SECTION 3 — HOLD TYPE (HT) ENGINE
+--------------------------------------------------
 
-**Use GitHub Codespaces**
+Each HT must contain:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+HT {
+    id
+    priority_rank
+    hold_mask[5]
+    bust_probability_flag
+    usage_count
+    win_count
+    loss_count
+    bust_count
+    expected_value
+}
 
-## What technologies are used for this project?
+HT Decision Algorithm:
 
-This project is built with:
+Evaluate in strict priority order:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. Made hands
+2. Strong draws (4 to straight/flush)
+3. Medium draws
+4. High card logic
+5. Draw all
 
-## How can I deploy this project?
+HT must be deterministic.
+No randomness in strategy.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Track:
+- Win %
+- Loss %
+- Bust %
+- EV per HT
+- Average tube trigger rate
 
-## Can I connect a custom domain to my Lovable project?
+--------------------------------------------------
+SECTION 4 — STACK_TUBE ECONOMY ENGINE
+--------------------------------------------------
 
-Yes, you can!
+Define Tube object:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Tube {
+    name (ST, FL, FH, SF, RF)
+    initial_balance
+    current_balance
+    total_funded
+    total_paid
+    hit_count
+    depletion_count
+}
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Tube_Payout_Function options must be modular:
+
+Option A: Fixed payout
+Option B: Percentage drain
+Option C: Logarithmic scaling
+Option D: Progressive scaling
+
+Refill Rules:
+- Player_Refills_Tubes_On_Take
+- House_Refills_On_Decline
+- Trigger thresholds for forced refill
+
+Track:
+- Average tube balance
+- Depletion frequency
+- Volatility index per tube
+
+--------------------------------------------------
+SECTION 5 — AI FEEDBACK LOOP (MATHEMATICAL DESIGN)
+--------------------------------------------------
+
+Target:
+Maintain House Edge between Target_Min and Target_Max (example 3%–7%)
+
+Definitions:
+
+HouseEdge = (Total_Antes - Total_Payouts) / Total_Antes
+
+Total_Payouts = PlayPot_Payouts + Tube_Payouts - Bust_Penalties
+
+After each 20,000-round simulation:
+
+Compute:
+- HouseEdge
+- Volatility (std deviation of round returns)
+- HT_EV_distribution
+- Tube_Depletion_Rate
+
+AI Adjustment Algorithm:
+
+Error = Target_HouseEdge - Measured_HouseEdge
+
+If |Error| > tolerance:
+
+    Adjust parameters proportionally:
+
+    Bust_Penalty_Multiplier += alpha * Error
+    Tube_Initial_Values += beta * Error
+    Tube_Payout_Scaling += gamma * Error
+    Dealer_Draw_Aggressiveness += delta * Error
+
+Re-run simulation.
+
+Repeat until:
+HouseEdge within acceptable band AND
+No HT EV > +2%
+
+This forms a closed-loop control system.
+
+Use gradient-based parameter tuning.
+
+--------------------------------------------------
+SECTION 6 — REQUIRED OUTPUTS
+--------------------------------------------------
+
+Simulation must output:
+
+1. House net profit
+2. House edge %
+3. Player aggregate net
+4. Per-HT:
+      - Usage %
+      - Win %
+      - Loss %
+      - Bust %
+      - EV
+5. Tube metrics:
+      - Avg balance
+      - Max balance
+      - Total funded
+      - Total paid
+      - Depletion frequency
+6. Exploit flags:
+      - HT_EV > threshold
+      - Tube drain > threshold
+7. Monte Carlo summary (optional 100 runs)
+
+--------------------------------------------------
+SECTION 7 — MODULAR ARCHITECTURE
+--------------------------------------------------
+
+Must generate modular code:
+
+/engine
+    deck
+    hand_evaluator
+    ht_engine
+    tube_engine
+    resolution_engine
+    bust_engine
+
+/simulation
+    round_runner
+    simulator
+    monte_carlo
+    analytics
+
+/ai
+    edge_controller
+    ht_optimizer
+    anomaly_detector
+
+/config
+    config_loader
+
+Include structured logging for 20,000+ round runs.
+Code must support scaling to 100k+ simulations.
+
+--------------------------------------------------
+END REQUIREMENTS
+--------------------------------------------------
+
+Engine must be deterministic, reproducible, and simulation-ready.
+All economic variables configurable.
+All statistics exportable.
