@@ -111,12 +111,12 @@ const Index = () => {
 
       {/* Header */}
       <header className="p-4 border-b border-border bg-card/30">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center sm:items-start justify-between gap-4 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center sm:items-start justify-between px-[8px] gap-[7px]">
           <h1 className="font-bold tracking-wide text-lg text-purple-400">Alien Poker
 
         </h1>
 
-          <div className="flex items-center gap-1.5">
+          <div className="gap-1.5 flex items-start justify-center">
             <AchievementsPanel achievements={achievements.achievements} unlockedCount={achievements.unlockedCount} totalCount={achievements.totalCount} />
             <HandRankingsPopup />
           </div>
