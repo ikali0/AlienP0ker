@@ -4,42 +4,48 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono&display=swap");
+
 @layer base {
   :root {
     /* Casino dark theme */
-    --background: 220 20% 6%;
-    --foreground: 45 30% 95%;
+    --background: 343 43% 93%;
+    --foreground: 274 86.9159% 20.9804%;
 
-    --card: 220 15% 10%;
-    --card-foreground: 45 30% 95%;
+    --card: 343 43% 90%;
+    --card-foreground: 343 57% 20%;
 
-    --popover: 220 15% 10%;
-    --popover-foreground: 45 30% 95%;
+    --popover: 343 43% 93%;
+    --popover-foreground: 343 57% 20%;
 
     /* Casino gold */
-    --primary: 45 100% 50%;
-    --primary-foreground: 220 20% 6%;
+    --primary: 336 69.0323% 30.3922%;
+    --primary-foreground: 343 43% 93%;
 
     /* Felt green */
-    --secondary: 150 40% 20%;
-    --secondary-foreground: 45 30% 95%;
+    --secondary: 142 76.6423% 73.1373%;
+    --secondary-foreground: 271 81.3333% 55.8824%;
 
-    --muted: 220 15% 15%;
-    --muted-foreground: 220 10% 55%;
+    --muted: 13 42% 89%;
+    --muted-foreground: 343 17% 37%;
 
     /* Accent emerald */
-    --accent: 160 70% 35%;
-    --accent-foreground: 45 30% 95%;
+    --accent: 34 100% 91.7647%;
+    --accent-foreground: 27 95.9799% 60.9804%;
 
     /* Bust red */
-    --destructive: 0 85% 50%;
-    --destructive-foreground: 45 30% 95%;
+    --destructive: 0 76% 90%;
+    --destructive-foreground: 0 63% 31%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
-    --ring: 45 100% 50%;
+    --border: 13 32% 91%;
+    --input: 13 32% 91%;
+    --ring: 343 57% 19%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
     /* Custom colors */
     --casino-green: 150 50% 15%;
@@ -52,11 +58,78 @@
     --tube-fill: 45 100% 50%;
     --card-back: 220 60% 25%;
     --card-front: 40 30% 96%;
+    --chart-1: 343 58% 39%;
+    --chart-2: 13 76% 61%;
+    --chart-3: 43 37% 24%;
+    --chart-4: 73 74% 66%;
+    --chart-5: 103 87% 67%;
+    --sidebar: 248 0.3% 98.4%;
+    --sidebar-foreground: 343 57% 25%;
+    --sidebar-primary: 343 57% 19%;
+    --sidebar-primary-foreground: 343 43% 93%;
+    --sidebar-accent: 13 52% 89%;
+    --sidebar-accent-foreground: 343 57% 20%;
+    --sidebar-border: 13 32% 91%;
+    --sidebar-ring: 13 22% 75%;
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --tracking-normal: 0em;
+    --spacing: 0.25rem;
+    --sidebar-background: 343 43% 93%;
   }
 
   .dark {
-    --background: 220 20% 6%;
-    --foreground: 45 30% 95%;
+    --background: 343 3% 9%;
+    --foreground: 343 37% 70%;
+    --card: 343 3% 4%;
+    --card-foreground: 343 37% 70%;
+    --popover: 343 3% 9%;
+    --popover-foreground: 343 37% 70%;
+    --primary: 343 37% 95%;
+    --primary-foreground: 343 3% 9%;
+    --secondary: 13 22% 15%;
+    --secondary-foreground: 343 37% 70%;
+    --muted: 13 17% 15%;
+    --muted-foreground: 13 22% 75%;
+    --accent: 43 24% 23%;
+    --accent-foreground: 43 64% 70%;
+    --border: 13 17% 15%;
+    --input: 13 12% 25%;
+    --ring: 13 22% 83%;
+    --destructive: 0 33% 20%;
+    --destructive-foreground: 0 91% 71%;
+    --chart-1: 343 70% 50%;
+    --chart-2: 103 75% 55%;
+    --chart-3: 13 80% 55%;
+    --chart-4: 263 65% 60%;
+    --chart-5: 143 60% 45%;
+    --sidebar: 266 4% 20.8%;
+    --sidebar-foreground: 13 52% 95%;
+    --sidebar-primary: 43 64% 55%;
+    --sidebar-primary-foreground: 343 37% 70%;
+    --sidebar-accent: 13 17% 15%;
+    --sidebar-accent-foreground: 13 52% 95%;
+    --sidebar-border: 13 17% 15%;
+    --sidebar-ring: 13 22% 83%;
+    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
+    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
+    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --sidebar-background: 343 3% 9%;
+    --radius: 1rem;
   }
 }
 
