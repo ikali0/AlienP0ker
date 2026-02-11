@@ -112,7 +112,7 @@ const Index = () => {
       {/* Header */}
       <header className="p-4 border-b border-border bg-card/30">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center sm:items-start justify-between px-[8px] gap-[7px]">
-          <h1 className="font-bold tracking-wide text-lg text-purple-400">Alien Poker
+          <h1 className="font-bold tracking-wide text-purple-400 text-xs">Alien Poker
 
         </h1>
 
