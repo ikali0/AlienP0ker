@@ -1,4 +1,3 @@
-
 # Poker-Tube (“Alien” Poker Software)
 
 ## Deterministic Adaptive Poker Economy Engine
@@ -6,8 +5,6 @@
 ### System Design, Architecture & Simulation Framework
 
 **Version 1.0 — Production-Grade Prototype Specification**
-
----
 
 # 1. System Classification
 
@@ -26,8 +23,6 @@ Core characteristics:
 * Exploit detection & anomaly monitoring
 * Multiplayer-ready backend design
 
----
-
 # 2. Foundational Design Principles
 
 1. Determinism First
@@ -44,8 +39,6 @@ Core characteristics:
 
 5. Modular Replaceability
    Every major subsystem must be swappable without refactoring core logic.
-
----
 
 # 3. Core Game Model
 
@@ -78,8 +71,6 @@ House revenue derives from:
 * Play pot outcomes
 * Bust penalties
 * Liquidity pool mechanics
-
----
 
 # 4. Deterministic Hold Type (HT) Engine
 
