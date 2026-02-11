@@ -38,7 +38,7 @@ export function StatsPanel({
         Statistics
       </h3>
       
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 text-purple-400">
         {stats.map(({
         label,
         value,
@@ -55,7 +55,7 @@ export function StatsPanel({
 
       <div className="mt-4 pt-4 border-t border-border">
         <div className="text-center">
-          <div className={cn('text-2xl font-bold tabular-nums', Number(returnPercent) >= 100 ? 'text-accent' : 'text-foreground')}>
+          <div className={cn("text-2xl font-bold tabular-nums text-purple-500", Number(returnPercent) >= 100 ? 'text-accent' : 'text-foreground')}>
             {returnPercent}%
           </div>
           <div className="text-xs text-muted-foreground uppercase">
