@@ -12,13 +12,13 @@ export function DailyChallenges({
   currentStreak,
   onClaimReward
 }: DailyChallengesProps) {
-  const completedCount = challenges.filter(c => c.completed).length;
-  const claimedCount = challenges.filter(c => c.claimed).length;
+  const completedCount = challenges.filter((c) => c.completed).length;
+  const claimedCount = challenges.filter((c) => c.claimed).length;
   return <div className="bg-card/50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-border mx-2 sm:mx-0">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Trophy className="h-5 w-5 text-casino-gold" />
+          <Trophy className="h-5 w-5 text-purple-500" />
           <h3 className="font-bold text-foreground text-xs">Daily Challenges</h3>
         </div>
         <div className="text-xs text-primary">
@@ -36,7 +36,7 @@ export function DailyChallenges({
 
       {/* Challenges List */}
       <div className="space-y-3">
-        {challenges.map(challenge => {
+        {challenges.map((challenge) => {
         const targetNum = typeof challenge.target === 'number' ? challenge.target : 1;
         const progressPercent = typeof challenge.target === 'string' ? challenge.completed ? 100 : 0 : Math.min(challenge.progress / targetNum * 100, 100);
         return <div key={challenge.id} className={cn("p-3 rounded-lg border transition-all py-[10px] px-[10px]", challenge.claimed ? 'bg-muted/30 border-muted opacity-60' : challenge.completed ? 'bg-casino-gold/10 border-casino-gold/30' : 'bg-muted/50 border-border')}>
