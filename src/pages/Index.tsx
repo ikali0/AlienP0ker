@@ -116,7 +116,7 @@ const Index = () => {
 
         </h1>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
             <AchievementsPanel achievements={achievements.achievements} unlockedCount={achievements.unlockedCount} totalCount={achievements.totalCount} />
             <HandRankingsPopup />
           </div>
