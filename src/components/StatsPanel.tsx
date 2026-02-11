@@ -44,7 +44,7 @@ export function StatsPanel({
         value,
         color
       }) => <div key={label} className="text-center">
-            <div className={cn('text-2xl font-bold tabular-nums', color)}>
+            <div className={cn("text-small font-bold tabular-nums text-purple-300", color)}>
               {value}
             </div>
             <div className="text-xs text-muted-foreground uppercase">
