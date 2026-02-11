@@ -1,6 +1,6 @@
 # Poker-Tube (“Alien” Poker Software)
-## Prototype 1: https://alienpoker.lovable.app/
-## Prototype 2: https://alienp0ker.lovable.app/
+### Prototype 1: https://alienpoker.lovable.app/
+### Prototype 2: https://alienp0ker.lovable.app/
 
 ## Deterministic Adaptive Poker Economy Engine
 ### System Design, Architecture & Simulation Framework
@@ -22,7 +22,6 @@ Core characteristics:
 * Multiplayer-ready backend design
 
 # 2. Foundational Design Principles
-
 1. Determinism First
    Identical input state produces identical output state.
 2. Economic Isolation
@@ -42,7 +41,6 @@ Core characteristics:
 
 ## 3.2 Round Structure
 Each round executes deterministically:
-
 1. Collect antes
 2. Shuffle 52-card deck
 3. Deal 5 cards to all participants
@@ -63,12 +61,10 @@ House revenue derives from:
 * Liquidity pool mechanics
 
 # 4. Deterministic Hold Type (HT) Engine
-
 ## 4.1 Purpose
 The HT engine replaces player discretion with deterministic mapping from hand state → hold decision.
 
 This ensures:
-
 * Reproducibility
 * Analytical clarity
 * Controlled EV distribution
