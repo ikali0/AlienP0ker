@@ -1,6 +1,6 @@
 SYSTEM TYPE:
 Financial-grade simulation engine with deterministic strategy logic and dynamic payout pools.
-prototype in beta: https://p0ker.lovable.app
+Mock-Up UI: https://alienpoker.lovable.app/
 --------------------------------------------------
 SECTION 1 — CORE GAME LOOP
 --------------------------------------------------
