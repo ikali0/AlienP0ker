@@ -1,9 +1,6 @@
 AlienPoker™
 Next-Generation Deterministic Texas Hold’em
-Adaptive Poker Economy Engine
-Economic Control Systems, Architecture & Simulation Infrastructure
-Version 1.0
-# Poker-Tube (“Alien” Poker Software)
+
 #### Prototype 1: https://alienpoker.lovable.app/
 #### Prototype 2: https://alienp0ker.lovable.app/
 
